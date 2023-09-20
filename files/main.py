@@ -3,6 +3,11 @@
 # last-updated:	20/09/2023
 # purpose:		check if entry has been written today.
 
+# TO DO:
+# add time of entry to record
+# come up with use for programme
+# make GUI
+
 # importing stuff
 from datetime import date
 import csv
