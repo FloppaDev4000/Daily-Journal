@@ -7,6 +7,7 @@
 # add time of entry to record
 # come up with use for programme
 # make GUI
+# download packet tracer (not relevant to programme)
 
 # importing stuff
 from datetime import date
