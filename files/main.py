@@ -5,12 +5,10 @@
 
 # TO DO:
 # add time of entry to record
-# come up with use for programme
-# make GUI
-# download packet tracer (not relevant to programme)
 
 # importing stuff
 from datetime import date
+from datetime import datetime
 import csv
 
 # variables
@@ -27,7 +25,7 @@ with open(fileName, "r", encoding="utf-8") as fileObjR:
     for row in r:
         if row[0] == today:
             doneToday = True
-            print("Today is done already. You said: \"" + row[1] + "\".")
+            print("Today is done already. You said: \"" + row[2] + "\" at " + row[1] + ".")
             break
     fileObjR.close()
 
@@ -42,7 +40,8 @@ if willWrite:
     with open(fileName, "w", encoding="utf-8") as fileObjW:
         w = csv.writer(fileObjW)
         entryWords = input("Entry >> ")
-        fullEntry = [today, entryWords]
+        rightNow = datetime.now()
+        fullEntry = [str(today), str(rightNow.strftime("%H:%M:%S")), entryWords]
         w.writerow(fullEntry)
         
         fileObjW.close()
