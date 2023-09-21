@@ -37,7 +37,7 @@ if not doneToday:
 
 # writing to file
 if willWrite:
-    with open(fileName, "w", encoding="utf-8") as fileObjW:
+    with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
         w = csv.writer(fileObjW)
         entryWords = input("Entry >> ")
         rightNow = datetime.now()
