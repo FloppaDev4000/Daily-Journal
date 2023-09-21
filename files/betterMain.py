@@ -31,7 +31,7 @@ class mainWindow:
         self.warning = tk.Label(self.root, text="", font=(dFont, 10))
         
         # submit button
-        self.entryButton = tk.Button(self.root, text="Submit Entry", command=lambda: self.writeEntry(entryList))
+        self.entryButton = tk.Button(self.root, text="Submit Entry", command=lambda: self.writeEntry(otherEntryList))
         
         # view past entries button
         self.viewButton = tk.Button(self.root, text="View Past Entries", command=self.viewEntries)
@@ -44,76 +44,59 @@ class mainWindow:
         self.viewButton.pack(padx=dPadx, pady=dPady)
         self.root.mainloop()
     
-    # second text box
+
+
+    # second text box for viewing past entries
     def viewEntries(self):
         entriesWindow = tk.Toplevel(self.root)
-
+        entryList = readFile(fileName)
+        formattedEntries = ""
+        for i in entryList:
+            formattedEntries = formattedEntries + str(i[0]) + ", " + str(i[1]) + " >> " + str(i[2]) + "\n\n"
         entriesWindow.title("Past Entries")
-
         entriesWindow.geometry("500x350")
 
         self.words = tk.Text(entriesWindow,
                               width=50)
-        
         self.words.pack(padx=dPadx, pady=dPady)
-        self.words.insert("1.0", str(formattedEntries))
+        self.words.insert("1.0", formattedEntries)
         self.words.config(state="disabled")
     
+
     # write to the CSV file
     def writeEntry(self, list_of_entries):
-        
         entryInput = self.entryBox.get("1.0", tk.END)
 
-        if entryInput != "\n":
-            with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
-                w = csv.writer(fileObjW)
-                
-                fullEntry = [str(today),str(now.strftime("%H:%M:%S")),entryInput.replace("\n", "")]
-                list_of_entries.append(fullEntry)
-                for i in list_of_entries:
-                    w.writerow(i)
-                
-                fileObjW.close()
+        if list_of_entries[-1][0] != datetime.today():
+            print("today is today")
+            if entryInput != "\n":
+                with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
+                    w = csv.writer(fileObjW)
+                    
+                    fullEntry = [str(today),str(now.strftime("%H:%M:%S")),entryInput.replace("\n", "")]
+                    list_of_entries.append(fullEntry)
+                    for i in list_of_entries:
+                        w.writerow(i)
+                    
+                    fileObjW.close()
+            else:
+                self.warning.config(text = "There's nothing in the entry box!")
         else:
-            self.warning.config(text = "There's nothing in the entry box!")
-            print("didnt work")
+            self.warning.config(text = "You've already written an entry today. Come back tomorrow?")
 
 
 # reading file
-with open(fileName, "r", encoding="utf-8") as fileObjR:
-    r = csv.reader(fileObjR)
-    entryList = []
-    for row in r:
-        entryList.append(row)
+def readFile(name):
+    with open(name, "r", encoding="utf-8") as fileObjR:
+        r = csv.reader(fileObjR)
+        entryList = []
+        for row in r:
+            entryList.append(row)
+        fileObjR.close()
+
     
-    if not entryList:
-        doneToday = False
-    else:
-        doneToday = str(today) == entryList[-1][0]
-    fileObjR.close()
+    return entryList
 
-formattedEntries = ""
-for i in entryList:
-    formattedEntries = formattedEntries + str(i[0]) + ", " + str(i[1]) + " >> " + str(i[2]) + "\n\n"
-
-# here compare today w/ most recent entry
-'''
-if doneToday:
-    writeEntry(entryList)
-    print("Replaced.")
-else:
-    writeEntry("a")
-    print("Appended.")
-
-
-viewInput = "Y" #input("View? >> ")
-if viewInput == "Y":
-    fullData = []
-    with open(fileName, "r", encoding="utf-8") as fileObjR2:
-        r2 = csv.reader(fileObjR2)
-        for row2 in r2:
-            entry = row2[0] + ",", row2[1] + " : \"" + row2[2] + "\""
-            fullData.append(entry)
-    print()
-'''
+# here you do the thing
+otherEntryList = readFile(fileName)
 mainWindow()
