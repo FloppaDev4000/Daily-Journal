@@ -9,6 +9,15 @@ today = datetime.date.today().strftime("%d-%m-%Y")
 now = datetime.datetime.now()
 print(today) #edit out later
 
+def writeEntry(myNewLine):
+    with open(fileName, "w", encoding="utf-8", newline=myNewLine) as fileObjW:
+        w = csv.writer(fileObjW)
+        
+        fullEntry = [str(today),str(now.strftime("%H:%M:%S")),entryInput]
+        w.writerow(fullEntry)
+        
+        fileObjW.close()
+
 # reading file
 with open(fileName, "r", encoding="utf-8") as fileObjR:
     r = csv.reader(fileObjR)
@@ -24,16 +33,17 @@ with open(fileName, "r", encoding="utf-8") as fileObjR:
 
 # here compare today w/ most recent entry
 if doneToday:
-    # replace recent entry w/ new thing
+    writeEntry("")
     print("Replaced.")
 else:
-    with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
+    writeEntry("\n")
+    '''with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
         w = csv.writer(fileObjW)
         
         fullEntry = [str(today),str(now.strftime("%H:%M:%S")),entryInput]
         w.writerow(fullEntry)
         
-        fileObjW.close()
+        fileObjW.close()'''
     print("Appended.")
 
 viewInput = input("View? >> ")
