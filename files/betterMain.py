@@ -48,7 +48,7 @@ class mainWindow:
         entriesWindow.geometry("500x350")
 
         self.words = tk.Label(entriesWindow,
-                              text="text here",
+                              text=fullData,
                               anchor="w",
                               justify="left",
                               width=50)
