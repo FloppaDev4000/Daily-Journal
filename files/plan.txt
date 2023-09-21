@@ -1,0 +1,11 @@
+JOURNAL APP
+
+show date, time, message
+
+text box
+
+on press enter:
+	if donetoday, ask to confirm, write to today
+	else, write to empty row
+
+button to read all messages
