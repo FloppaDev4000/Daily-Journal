@@ -1,13 +1,12 @@
 import csv
 import datetime
 
-fileName = "days.csv"
+fileName = "files/days.csv"
 
 entryInput = input("Entry? >> ")
 
 today = datetime.date.today().strftime("%d-%m-%Y")
 now = datetime.datetime.now()
-print(today) #edit out later
 
 def writeEntry(myNewLine):
     with open(fileName, "w", encoding="utf-8", newline=myNewLine) as fileObjW:
