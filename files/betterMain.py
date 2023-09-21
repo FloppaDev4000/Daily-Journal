@@ -1,15 +1,26 @@
 import csv
 import datetime
+import tkinter as tk
 
 fileName = "files/days.csv"
 
+dFont = "Calibri"
 entryInput = input("Entry? >> ")
+
 
 today = datetime.date.today().strftime("%d-%m-%Y")
 now = datetime.datetime.now()
 
-def writeEntry(myNewLine):
-    with open(fileName, "w", encoding="utf-8", newline=myNewLine) as fileObjW:
+
+class mainWindow:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.mainloop()
+
+
+
+def writeEntry(writeType):
+    with open(fileName, writeType, encoding="utf-8", newline="") as fileObjW:
         w = csv.writer(fileObjW)
         
         fullEntry = [str(today),str(now.strftime("%H:%M:%S")),entryInput]
@@ -32,10 +43,10 @@ with open(fileName, "r", encoding="utf-8") as fileObjR:
 
 # here compare today w/ most recent entry
 if doneToday:
-    writeEntry("")
+    writeEntry("w")
     print("Replaced.")
 else:
-    writeEntry("\n")
+    writeEntry("a")
     '''with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
         w = csv.writer(fileObjW)
         
