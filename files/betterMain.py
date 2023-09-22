@@ -1,28 +1,39 @@
+# Author:       Adam Noonan
+
 import csv
 from datetime import datetime
 from datetime import date
 import tkinter as tk
 from tkinter import ttk
 
+# TO DO:
+#   find a reason for this thing to exist
+#   put window variables in a separate place to make it easier to edit
+#   add comments
+#   figure out why i need 2 read file functions
+
 fileName = "files/days.csv"
 
+# default tkinter variables
 dFont = "Calibri"
 dPadx = 20
 dPady = 12
-# entryInput = "yes" #input("Entry? >> ")
 
-
+#get current time
 today = date.today().strftime("%d-%m-%Y")
 now = datetime.now()
 
+# main app window
 class mainWindow:
     def __init__(self):
+
+        #initialize window
         self.root = tk.Tk()
         self.root.geometry("500x600")
-        self.root.title("Main Window")
+        self.root.title("Journal")
 
         # title
-        self.mainLabel = tk.Label(self.root, text="Title Here", font=(dFont, 16))
+        self.mainLabel = tk.Label(self.root, text="Submit your entry below!", font=(dFont, 16))
         
         # text entry
         self.entryBox = tk.Text(self.root)
@@ -36,7 +47,7 @@ class mainWindow:
         # view past entries button
         self.viewButton = tk.Button(self.root, text="View Past Entries", command=self.viewEntries)
         
-        # pack everything
+        # pack everything up on the window
         self.mainLabel.pack(padx=dPadx, pady=dPady)
         self.entryBox.pack(padx=dPadx, pady=dPady)
         self.warning.pack(padx=dPadx, pady=5)
@@ -48,28 +59,32 @@ class mainWindow:
 
     # second text box for viewing past entries
     def viewEntries(self):
+
+        # processing the list of past entries
         entriesWindow = tk.Toplevel(self.root)
         entryList = readFile(fileName)
+        entryList.reverse()
         formattedEntries = ""
         for i in entryList:
             formattedEntries = formattedEntries + str(i[0]) + ", " + str(i[1]) + " >> " + str(i[2]) + "\n\n"
         entriesWindow.title("Past Entries")
-        entriesWindow.geometry("500x350")
+        entriesWindow.geometry("600x350")
 
+        # displaying the list of past entries
         self.words = tk.Text(entriesWindow,
-                              width=50)
+                              width=100)
         self.words.pack(padx=dPadx, pady=dPady)
         self.words.insert("1.0", formattedEntries)
         self.words.config(state="disabled")
     
 
-    # write to the CSV file
+    # write to the CSV file. Only allowed if text box has stuff in it + no entries written today
     def writeEntry(self, list_of_entries):
         entryInput = self.entryBox.get("1.0", tk.END)
 
-        if list_of_entries[-1][0] != datetime.today():
-            print("today is today")
+        if list_of_entries[-1][0] != today:
             if entryInput != "\n":
+                self.warning.config(text = "Submitted!")
                 with open(fileName, "w", encoding="utf-8", newline="") as fileObjW:
                     w = csv.writer(fileObjW)
                     
@@ -92,11 +107,9 @@ def readFile(name):
         entryList = []
         for row in r:
             entryList.append(row)
-        fileObjR.close()
-
-    
+        fileObjR.close()    
     return entryList
 
-# here you do the thing
+# start the programme
 otherEntryList = readFile(fileName)
 mainWindow()
