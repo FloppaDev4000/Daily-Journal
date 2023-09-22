@@ -1,6 +1,11 @@
 import csv
 import datetime
 
+# KNOWN ISSUES:
+    # the append thing accidentally replaces
+    # need more comments + organisation
+    # VSCode can't find "days.csv"
+
 fileName = "days.csv"
 
 entryInput = input("Entry? >> ")
