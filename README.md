@@ -1,4 +1,4 @@
-# next-repo
+# daily-journal
 
 daily journal! 
 
