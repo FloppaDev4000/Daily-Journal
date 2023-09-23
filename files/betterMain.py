@@ -1,4 +1,5 @@
-# Author:       Adam Noonan
+# AUTHOR: Adam N
+# PROGRAM: daily journal application
 
 import csv
 from datetime import datetime

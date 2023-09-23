@@ -9,3 +9,5 @@ on press enter:
 	else, write to empty row
 
 button to read all messages
+
+why are you reading this? this file doesn't do anything.
